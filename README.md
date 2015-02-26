@@ -1,4 +1,4 @@
-h2 Aplikasi iTicket
+<h2> Aplikasi iTicket </h2>
 ================
 
 Sinopsis
