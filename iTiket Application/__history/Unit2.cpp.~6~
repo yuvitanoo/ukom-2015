@@ -1,0 +1,145 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "Unit1.h"
+#include "Unit2.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TForm2 *Form2;
+//---------------------------------------------------------------------------
+__fastcall TForm2::TForm2(TComponent* Owner)
+	: TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm2::Image1Click(TObject *Sender)
+{
+if(ComboBox1->Text==""&&ComboBox2->Text==""&&DateTimePicker1->DateTime==""&&ComboBox3->Text==""&&DateTimePicker2->Date==""&&Edit1->Text==""&&SpinEdit1->Text==""&&Edit2->Text=="")
+{
+	MessageBoxA(0, "Isi data dengan lengkap!","Informasi",MB_ICONERROR|MB_OK);
+}
+else
+{
+	ADOQuery1->Close();
+	ADOQuery1->SQL->Clear();
+	ADOQuery1->SQL->Add("insert into jadwal values('"+ComboBox1->Text+"','"+ComboBox2->Text+"','"+DateTimePicker1->Date+"','"+ComboBox3->Text+"','"+DateTimePicker2->Date+"','"+Edit1->Text+"','"+SpinEdit1->Text+"','"+Edit2->Text+"')")   ;
+	ADOQuery1->ExecSQL();
+	MessageBoxA(0,"Pastikan data akurat!","Informasi",MB_ICONQUESTION|MB_YESNO)==mrYes;
+	MessageBoxA(0,"Data barang berhasil tersimpan","Tersimpan",MB_ICONINFORMATION|MB_OK);
+	ComboBox1->Clear();
+	ComboBox2->Clear();
+	DateTimePicker1->CleanupInstance();
+	ComboBox3->Clear();
+	DateTimePicker2->CleanupInstance();
+	Edit1->Clear();
+	SpinEdit1->Clear();
+	Edit2->Clear();
+	ADOQuery1->SQL->Clear();
+	ADOQuery1->SQL->Add("select *from jadwal");
+	ADOQuery1->Open();
+}
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm2::Image2Click(TObject *Sender)
+{
+	ComboBox1->Clear();
+	ComboBox2->Clear();
+	DateTimePicker1->CleanupInstance();
+	ComboBox3->Clear();
+	DateTimePicker2->CleanupInstance();
+	Edit1->Clear();
+	SpinEdit1->Clear();
+	Edit2->Clear();
+	ADOQuery1->SQL->Clear();
+	ADOQuery1->SQL->Add("select *from jadwal");
+	ADOQuery1->Open();
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm2::Image3Click(TObject *Sender)
+{
+	ADOQuery1->Close();
+	ADOQuery1->SQL->Clear();
+	ADOQuery1->SQL->Add("delete from jadwal where no_pesawat='"+Edit1->Text+"'");
+	ADOQuery1->ExecSQL();
+	ADOQuery1->Close();
+
+	MessageBoxA(0,"Anda akan menghapus data ini?","Konfirmasi",MB_ICONQUESTION|MB_YESNO)==mrYes;
+	MessageBoxA(0, "Data berhasil terhapus","Berhasil",MB_ICONINFORMATION|MB_OK);
+
+	ComboBox1->Clear();
+	ComboBox2->Clear();
+	DateTimePicker1->CleanupInstance();
+	ComboBox3->Clear();
+	DateTimePicker2->CleanupInstance();
+	Edit1->Clear();
+	SpinEdit1->Clear();
+	Edit2->Clear();
+	ADOQuery1->SQL->Clear();
+	ADOQuery1->SQL->Add("select *from jadwal");
+	ADOQuery1->ExecSQL();
+	ADOQuery1->Open();
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm2::Image4Click(TObject *Sender)
+{
+if(ComboBox1->Text==""&&ComboBox2->Text==""&&DateTimePicker1->DateTime==""&&ComboBox3->Text==""&&DateTimePicker2->Date==""&&Edit1->Text==""&&SpinEdit1->Text==""&&Edit2->Text=="")
+{
+	MessageBoxA(0, "Data tidak ditemukan!","Informasi",MB_ICONERROR|MB_OK);
+}
+else
+{
+
+	ADOQuery1->Close();
+	ADOQuery1->SQL->Clear();
+	ADOQuery1->SQL->Add("select *from jadwal where no_pesawat='"+Edit1->Text+"'");
+	ADOQuery1->Open();
+
+	ADOQuery1->Edit();
+	ADOQuery1->FieldByName("pesawat")->AsString = ComboBox1->Text;
+	ADOQuery1->FieldByName("keberangkatan")->AsString = ComboBox2->Text;
+	ADOQuery1->FieldByName("waktu_keberangkatan")->AsString = DateTimePicker1->DateTime;
+	ADOQuery1->FieldByName("kedatangan")->AsString = ComboBox3->Text;
+	ADOQuery1->FieldByName("waktu_kedatangan")->AsString = DateTimePicker2->DateTime;
+	ADOQuery1->FieldByName("no_pesawat")->AsString = Edit1->Text;
+	ADOQuery1->FieldByName("jumlah_pemberhentian")->AsString = SpinEdit1->Text;
+	ADOQuery1->FieldByName("keterangan")->AsString = Edit2->Text;
+
+	ADOQuery1->Post();
+
+	MessageBoxA(0,"Anda akan mengubah data ini?","Konfirmasi",MB_ICONQUESTION|MB_YESNO)==mrYes;
+	MessageBoxA(0, "Data berhasil diubah","Berhasil",MB_ICONINFORMATION|MB_OK);
+
+	ComboBox1->Clear();
+	ComboBox2->Clear();
+	DateTimePicker1->CleanupInstance();
+	ComboBox3->Clear();
+	DateTimePicker2->CleanupInstance();
+	Edit1->Clear();
+	SpinEdit1->Clear();
+	Edit2->Clear();
+	ADOQuery1->SQL->Clear();
+	ADOQuery1->SQL->Add("select *from jadwal");
+	ADOQuery1->Open();
+}
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm2::FormCreate(TObject *Sender)
+{
+/*ADOQuery1->Close();
+ADOQuery1->SQL->Clear();
+ADOQuery1->SQL->Add("select *from jadwal where pesawat = '"+ComboBox1->Text+"' AND keberangkatan = '"+ComboBox2->Text+"' AND kedatangan = '"+ComboBox3->Text+"'");
+ADOQuery1->Open();
+	 Form2->Show();
+	 Form1->Hide();
+  */
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm2::Kembali1Click(TObject *Sender)
+{
+Form2->Hide();
+Form1->Show();
+}
+//---------------------------------------------------------------------------
